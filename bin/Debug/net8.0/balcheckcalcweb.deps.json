@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "balcheckcalcweb/1.0.0": {
+        "runtime": {
+          "balcheckcalcweb.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "balcheckcalcweb/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

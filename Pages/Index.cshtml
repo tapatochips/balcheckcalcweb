@@ -1,0 +1,140 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="container">
+    <h1>Balance Check Calculator</h1>
+    <p>Enter the number of policies, then provide details for each policy to calculate the revised balances.</p>
+
+    <div>
+        <div>
+            <h2>
+                How to use this calculator:
+            </h2>
+            <ol>
+                <li>Find the balance remaining for the policy.</li>
+                <li>Find the monthly Install amount for the policy.</li>
+                <li>Determine how many months are left before renewal.</li>
+            </ol>
+            <p>
+                Example for step 3: If an auto policy has a 6 month term,
+                starts in January, renews in June,
+                it is currently april,
+                the customer is also behind for the month of april,
+                for a normal bill to show for may,
+                there is only 1 month left remaining in the policy term.
+            </p>
+
+        </div>
+                    
+          
+        
+        <label for="policyCount">How many policies does the customer have?</label>
+        <input type="number" id="policyCount" min="1" />
+        <button id="generateBtn">Submit</button>
+    </div>
+
+    <br />
+    <div id="policyInputs"></div>
+
+    <div id="output" style="display:none;">
+        <h2>Revised Amounts Due</h2>
+        <table id="resultTable" class="table">
+            <thead>
+                <tr>
+                    <th>Policy #</th>
+                    <th>Revised Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <p id="totalAmount"></p>
+        <h3>FAQ and reminders.</h3>
+        <p>Q: Why is the revised amount due more than what was billed?</p>
+        <p>A: When calculating a revised amount due, the system will include the entire spread balance, and any past due balance if there is any.</p>
+
+
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        //func to generate policy input fields based on the number of policies entered
+        document.getElementById('generateBtn').addEventListener('click', function () {
+            const policyCount = parseInt(document.getElementById("policyCount").value);
+
+            //check if the input is a valid
+            if (!isNaN(policyCount) && policyCount > 0) {
+                const policyInputs = document.getElementById("policyInputs");
+                policyInputs.innerHTML = ""; //clear previous inputs
+
+                //input fields for each policy
+                for (let i = 0; i < policyCount; i++) {
+                    const policyDiv = document.createElement("div");
+                    policyDiv.innerHTML = `
+                                <h3>Policy ${i + 1}</h3>
+                                <label for="balance${i}">Policy Balance:</label>
+                                <input type="number" id="balance${i}" step="0.01" /><br>
+                                <label for="install${i}">Monthly Install:</label>
+                                <input type="number" id="install${i}" step="0.01" /><br>
+                                <label for="monthsLeft${i}">Months Remaining:</label>
+                                <input type="number" id="monthsLeft${i}" step="1" /><br><br>
+                            `;
+                    policyInputs.appendChild(policyDiv);
+                }
+
+                //add the calc btn
+                if (!document.getElementById("calculateBtn")) {
+                    const calcButton = document.createElement("button");
+                    calcButton.textContent = "Calculate Revised Amount";
+                    calcButton.id = "calculateBtn";
+                    calcButton.onclick = calculateRevisedAmounts;
+                    policyInputs.appendChild(calcButton);
+                }
+            } else {
+                alert("Please enter a valid number of policies.");
+            }
+        });
+
+        //func to calculate revised and display in a table
+        function calculateRevisedAmounts() {
+            const policyCount = parseInt(document.getElementById("policyCount").value);
+            let totalAmountDue = 0;
+
+            const resultTableBody = document.querySelector("#resultTable tbody");
+            resultTableBody.innerHTML = ""; // clear previous
+
+            //loop through policy and calculate revised
+            for (let i = 0; i < policyCount; i++) {
+                const balanceInput = document.getElementById(`balance${i}`);
+                const installInput = document.getElementById(`install${i}`);
+                const monthsLeftInput = document.getElementById(`monthsLeft${i}`);
+
+                const balance = parseFloat(balanceInput.value);
+                const install = parseFloat(installInput.value);
+                const monthsLeft = parseInt(monthsLeftInput.value);
+
+                //check valid inputs
+                if (!isNaN(balance) && !isNaN(install) && !isNaN(monthsLeft)) {
+                    const revisedAmount = balance - (install * monthsLeft);
+                    totalAmountDue += revisedAmount;
+
+                    //add  calculated amount as new row in table
+                    const row = document.createElement("tr");
+                    row.innerHTML = `<td>Policy ${i + 1}</td><td>$${revisedAmount.toFixed(2)}</td>`;
+                    resultTableBody.appendChild(row);
+                } else {
+                    alert(`Invalid input for Policy ${i + 1}. Please enter valid numbers.`);
+                    return;
+                }
+            }
+
+            //display total amount due at the bottom
+            document.getElementById("totalAmount").innerHTML = `<strong>Total Amount Due: $${totalAmountDue.toFixed(2)}</strong> Pending no additional changes.`;
+            document.getElementById("output").style.display = "block"; //show results
+        }
+    </script>
+}
