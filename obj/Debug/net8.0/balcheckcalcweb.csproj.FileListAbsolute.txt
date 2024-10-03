@@ -28,3 +28,4 @@ C:\Users\richm\balcheckcalcweb\obj\Debug\net8.0\refint\balcheckcalcweb.dll
 C:\Users\richm\balcheckcalcweb\obj\Debug\net8.0\balcheckcalcweb.pdb
 C:\Users\richm\balcheckcalcweb\obj\Debug\net8.0\balcheckcalcweb.genruntimeconfig.cache
 C:\Users\richm\balcheckcalcweb\obj\Debug\net8.0\ref\balcheckcalcweb.dll
+C:\Users\richm\balcheckcalcweb\obj\Debug\net8.0\balcheckcalcweb.sourcelink.json
