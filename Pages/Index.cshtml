@@ -6,7 +6,8 @@
 
 <div class="container">
     <h1>Balance Check Calculator</h1>
-    <p>Enter the number of policies, then provide details for each policy to calculate the revised balances.</p>
+
+    <p>Enter the number of policies, then provide details for each policy to calculate the revised amount due.</p>
 
     <div>
         <div>
@@ -14,8 +15,8 @@
                 How to use this calculator:
             </h2>
             <ol>
-                <li>Find the balance remaining for the policy.</li>
-                <li>Find the monthly Install amount for the policy.</li>
+                <li>Determine the balance remaining for the policy.</li>
+                <li>Determine the monthlys Install amount for the policy.</li>
                 <li>Determine how many months are left before renewal.</li>
             </ol>
             <p>
@@ -24,7 +25,7 @@
                 it is currently april,
                 the customer is also behind for the month of april,
                 for a normal bill to show for may,
-                there is only 2 month left remaining in the policy term.
+                there is only 2 months left remaining in the policy term.
             </p>
 
         </div>
@@ -89,7 +90,7 @@
                 //add the calc btn
                 if (!document.getElementById("calculateBtn")) {
                     const calcButton = document.createElement("button");
-                    calcButton.textContent = "Calculate Revised Amount";
+                    calcButton.textContent = "Calculate";
                     calcButton.id = "calculateBtn";
                     calcButton.onclick = calculateRevisedAmounts;
                     policyInputs.appendChild(calcButton);
@@ -133,7 +134,7 @@
             }
 
             //display total amount due at the bottom
-            document.getElementById("totalAmount").innerHTML = `<strong>Total Amount Due: $${totalAmountDue.toFixed(2)}</strong> Pending no additional changes.`;
+            document.getElementById("totalAmount").innerHTML = `<strong>Total Amount Due: $${totalAmountDue.toFixed(2)} Pending no additional changes.</strong>`;
             document.getElementById("output").style.display = "block"; //show results
         }
     </script>
