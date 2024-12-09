@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("balcheckcalcweb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+86485331ca7cf126c790e25560f493adb7e43f78")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0506520b51fa52620fdcc578ab44aa9cfbf4d8db")]
 [assembly: System.Reflection.AssemblyProductAttribute("balcheckcalcweb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("balcheckcalcweb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
