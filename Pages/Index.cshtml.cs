@@ -1,14 +1,22 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Globalization;
-using System.Linq;
+using System.ComponentModel.DataAnnotations;
+using balcheckcalcweb.Services;
 
 namespace balcheckcalcweb.Pages
 {
     public class IndexModel : PageModel
     {
+        private readonly IPolicyCalculatorService _calculatorService;
+        
+        public IndexModel(IPolicyCalculatorService calculatorService)
+        {
+            _calculatorService = calculatorService;
+        }
+
         [BindProperty]
-        public int PolicyCount { get; set; }
+        [Range(1, 100, ErrorMessage = "Please enter a value between 1 and 100")]
+        public int PolicyCount { get; set; } = 1;
 
         [BindProperty]
         public List<PolicyInputModel> PolicyInputs { get; set; } = new List<PolicyInputModel>();
@@ -16,24 +24,38 @@ namespace balcheckcalcweb.Pages
         public List<PolicyResultModel> Results { get; private set; } = new List<PolicyResultModel>();
 
         public decimal TotalAmount { get; private set; }
+        
+        [TempData]
+        public string StatusMessage { get; set; }
+
+        public void OnGet()
+        {
+            //pre-populate with a single policy on first load
+            if (!PolicyInputs.Any())
+            {
+                PolicyCount = 1;
+                PolicyInputs = new List<PolicyInputModel> { new PolicyInputModel { PolicyNumber = 1 } };
+            }
+        }
 
         public void OnPostGenerateFields()
         {
-            //gen input fields based on PolicyCount
             if (PolicyCount > 0)
             {
                 PolicyInputs = Enumerable.Range(1, PolicyCount)
-                                         .Select(i => new PolicyInputModel { PolicyNumber = i })
-                                         .ToList();
+                                        .Select(i => new PolicyInputModel { PolicyNumber = i })
+                                        .ToList();
+            }
+            else
+            {
+                ModelState.AddModelError(nameof(PolicyCount), "Please enter at least 1 policy.");
             }
         }
 
         public IActionResult OnPostCalculate()
         {
-            //check inputs are valid
-            if (PolicyInputs == null || !PolicyInputs.Any())
+            if (!ModelState.IsValid)
             {
-                ModelState.AddModelError(string.Empty, "Please provide valid policy details.");
                 return Page();
             }
 
@@ -44,23 +66,45 @@ namespace balcheckcalcweb.Pages
             {
                 try
                 {
-                    var revisedAmount = CalculateRevisedAmount(input);
+                    //validate date ranges
+                    if (!_calculatorService.ValidateDateRange(input.EffectiveDate, input.ExpirationDate, input.CurrentDate))
+                    {
+                        ModelState.AddModelError(string.Empty, 
+                            $"Policy {input.PolicyNumber}: Current date must be between effective and expiration dates.");
+                        continue;
+                    }
+
+                    //calc revised amount
+                    decimal revisedAmount = _calculatorService.CalculateRevisedAmount(
+                        input.EffectiveDate, 
+                        input.ExpirationDate,
+                        input.CurrentDate,
+                        input.Balance,
+                        input.Installment);
+                    
                     Results.Add(new PolicyResultModel
                     {
-                        PolicyNumber = input.PolicyNumber + 1,
+                        PolicyNumber = input.PolicyNumber, 
                         RevisedAmount = revisedAmount
                     });
 
                     TotalAmount += revisedAmount;
                 }
-                catch (InvalidOperationException ex)
+                catch (Exception ex)
                 {
-                    ModelState.AddModelError(string.Empty, ex.Message);
+                    ModelState.AddModelError(string.Empty, $"Policy {input.PolicyNumber}: {ex.Message}");
                 }
+            }
+
+            if (!Results.Any())
+            {
+                StatusMessage = "No valid policies to calculate.";
             }
 
             return Page();
         }
+    }
+
 
         private decimal CalculateRevisedAmount(PolicyInputModel input)
         {
@@ -79,7 +123,7 @@ namespace balcheckcalcweb.Pages
             int monthsLeft = ((expirationDate.Year - currentDate.Year) * 12) + (expirationDate.Month - currentDate.Month);
             return input.Balance - (input.Installment * monthsLeft);
         }
-    }
+    
 
     public class PolicyInputModel
     {

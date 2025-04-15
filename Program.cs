@@ -1,11 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// add services to the container.
 builder.Services.AddRazorPages();
+
+//register application services
+builder.Services.AddScoped<IPolicyCalculatorService, PolicyCalculatorService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// config the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
