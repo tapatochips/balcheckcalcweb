@@ -8,7 +8,7 @@ namespace balcheckcalcweb.Pages
     public class IndexModel : PageModel
     {
         private readonly IPolicyCalculatorService _calculatorService;
-        
+
         public IndexModel(IPolicyCalculatorService calculatorService)
         {
             _calculatorService = calculatorService;
@@ -24,13 +24,13 @@ namespace balcheckcalcweb.Pages
         public List<PolicyResultModel> Results { get; private set; } = new List<PolicyResultModel>();
 
         public decimal TotalAmount { get; private set; }
-        
+
         [TempData]
-        public string StatusMessage { get; set; }
+        public string? StatusMessage { get; set; }
 
         public void OnGet()
         {
-            //pre-populate with a single policy on first load
+            // Pre-populate with a single policy on first load
             if (!PolicyInputs.Any())
             {
                 PolicyCount = 1;
@@ -66,25 +66,25 @@ namespace balcheckcalcweb.Pages
             {
                 try
                 {
-                    //validate date ranges
+                    // Validate date ranges
                     if (!_calculatorService.ValidateDateRange(input.EffectiveDate, input.ExpirationDate, input.CurrentDate))
                     {
-                        ModelState.AddModelError(string.Empty, 
+                        ModelState.AddModelError(string.Empty,
                             $"Policy {input.PolicyNumber}: Current date must be between effective and expiration dates.");
                         continue;
                     }
 
-                    //calc revised amount
+                    // Calculate revised amount
                     decimal revisedAmount = _calculatorService.CalculateRevisedAmount(
-                        input.EffectiveDate, 
+                        input.EffectiveDate,
                         input.ExpirationDate,
                         input.CurrentDate,
                         input.Balance,
                         input.Installment);
-                    
+
                     Results.Add(new PolicyResultModel
                     {
-                        PolicyNumber = input.PolicyNumber, 
+                        PolicyNumber = input.PolicyNumber,
                         RevisedAmount = revisedAmount
                     });
 
@@ -105,34 +105,34 @@ namespace balcheckcalcweb.Pages
         }
     }
 
-
-        private decimal CalculateRevisedAmount(PolicyInputModel input)
-        {
-            if (!DateTime.TryParse(input.EffectiveDate, out var effectiveDate))
-                throw new InvalidOperationException($"Policy {input.PolicyNumber}: Invalid Effective Date.");
-            if (!DateTime.TryParse(input.ExpirationDate, out var expirationDate))
-                throw new InvalidOperationException($"Policy {input.PolicyNumber}: Invalid Expiration Date.");
-            if (!DateTime.TryParse(input.CurrentDate, out var currentDate))
-                throw new InvalidOperationException($"Policy {input.PolicyNumber}: Invalid Current Date.");
-
-            if (currentDate < effectiveDate || currentDate > expirationDate)
-            {
-                throw new InvalidOperationException($"Policy {input.PolicyNumber}: Date range out of bounds.");
-            }
-
-            int monthsLeft = ((expirationDate.Year - currentDate.Year) * 12) + (expirationDate.Month - currentDate.Month);
-            return input.Balance - (input.Installment * monthsLeft);
-        }
-    
-
     public class PolicyInputModel
     {
         public int PolicyNumber { get; set; }
+
+        [Required(ErrorMessage = "Balance is required")]
+        [Display(Name = "Balance")]
+        [DataType(DataType.Currency)]
         public decimal Balance { get; set; }
+
+        [Required(ErrorMessage = "Installment amount is required")]
+        [Display(Name = "Installment")]
+        [DataType(DataType.Currency)]
         public decimal Installment { get; set; }
-        public string EffectiveDate { get; set; }
-        public string ExpirationDate { get; set; }
-        public string CurrentDate { get; set; }
+
+        [Required(ErrorMessage = "Effective date is required")]
+        [Display(Name = "Effective Date")]
+        [DataType(DataType.Date)]
+        public DateTime EffectiveDate { get; set; }
+
+        [Required(ErrorMessage = "Expiration date is required")]
+        [Display(Name = "Expiration Date")]
+        [DataType(DataType.Date)]
+        public DateTime ExpirationDate { get; set; }
+
+        [Required(ErrorMessage = "Current date is required")]
+        [Display(Name = "Current Date")]
+        [DataType(DataType.Date)]
+        public DateTime CurrentDate { get; set; }
     }
 
     public class PolicyResultModel

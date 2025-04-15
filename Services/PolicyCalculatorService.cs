@@ -1,15 +1,17 @@
+using System;
+
 namespace balcheckcalcweb.Services
 {
     public interface IPolicyCalculatorService
     {
-        decimal CalculateRevisedAmount(DateTime effectiveDate, DateTime expirationDate, 
+        decimal CalculateRevisedAmount(DateTime effectiveDate, DateTime expirationDate,
                                       DateTime currentDate, decimal balance, decimal installment);
         bool ValidateDateRange(DateTime effectiveDate, DateTime expirationDate, DateTime currentDate);
     }
 
     public class PolicyCalculatorService : IPolicyCalculatorService
     {
-        public decimal CalculateRevisedAmount(DateTime effectiveDate, DateTime expirationDate, 
+        public decimal CalculateRevisedAmount(DateTime effectiveDate, DateTime expirationDate,
                                              DateTime currentDate, decimal balance, decimal installment)
         {
             if (!ValidateDateRange(effectiveDate, expirationDate, currentDate))
@@ -17,9 +19,9 @@ namespace balcheckcalcweb.Services
                 throw new ArgumentException("Current date must be between effective and expiration dates.");
             }
 
-            int monthsLeft = ((expirationDate.Year - currentDate.Year) * 12) + 
+            int monthsLeft = ((expirationDate.Year - currentDate.Year) * 12) +
                               (expirationDate.Month - currentDate.Month);
-            
+
             return balance - (installment * monthsLeft);
         }
 

@@ -1,14 +1,16 @@
+using balcheckcalcweb.Services;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// add services to the container.
+// Add services to the container.
 builder.Services.AddRazorPages();
 
-//register application services
+// Register application services
 builder.Services.AddScoped<IPolicyCalculatorService, PolicyCalculatorService>();
 
 var app = builder.Build();
 
-// config the HTTP request pipeline.
+// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");

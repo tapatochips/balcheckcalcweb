@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("balcheckcalcweb")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5bdfae43afdd4e025990663d0a4d20a23059f245")]
 [assembly: System.Reflection.AssemblyProductAttribute("balcheckcalcweb")]
 [assembly: System.Reflection.AssemblyTitleAttribute("balcheckcalcweb")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
