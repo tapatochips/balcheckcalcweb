@@ -9,12 +9,33 @@
         <h1 class="mb-0">Policy Calculator</h1>
     </div>
     <div class="card-body">
-        <!-- form for # of pols -->
+        <!-- validation summ -->
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        @if (!string.IsNullOrEmpty(Model.StatusMessage))
+        {
+        <div class="alert alert-info alert-dismissible fade show" role="alert">
+            @Model.StatusMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        }
+
+        <!-- form for num of pols -->
         <form method="post" class="mb-4">
-            <div class="form-group row">
-                <label for="PolicyCount" class="col-sm-4 col-form-label">Number of Policies:</label>
+            <div class="row mb-3">
+                <label asp-for="UserAlias" class="col-sm-4 col-form-label">Your Alias:</label>
+                <div class="col-sm-8">
+                    <input asp-for="UserAlias" class="form-control" required />
+                    <span asp-validation-for="UserAlias" class="text-danger"></span>
+                    <small class="form-text text-muted">This allows you to search for your calculations later</small>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="PolicyCount" class="col-sm-4 col-form-label">Number of Policies:</label>
                 <div class="col-sm-6">
-                    <input type="number" class="form-control" id="PolicyCount" name="PolicyCount" min="1" value="@Model.PolicyCount" required />
+                    <input asp-for="PolicyCount" class="form-control" min="1" required />
+                    <span asp-validation-for="PolicyCount" class="text-danger"></span>
                 </div>
                 <div class="col-sm-2">
                     <button type="submit" class="btn btn-primary w-100" formaction="@Url.Page("Index", "GenerateFields")">Generate</button>
@@ -22,115 +43,183 @@
             </div>
         </form>
 
-        <!-- validate Summary -->
-        <div asp-validation-summary="All" class="text-danger"></div>
-
         @if (Model.PolicyInputs?.Count > 0)
         {
-            <form method="post">
-                <input type="hidden" name="PolicyCount" value="@Model.PolicyCount" />
-                
-                @for (int i = 0; i < Model.PolicyInputs.Count; i++)
+        <form method="post">
+            <input type="hidden" asp-for="PolicyCount" />
+            <input type="hidden" asp-for="UserAlias" />
+
+            @for (int i = 0; i < Model.PolicyInputs.Count; i++)
                 {
-                    <div class="card mb-3">
-                        <div class="card-header bg-light">
-                            <h5 class="mb-0">Policy @Model.PolicyInputs[i].PolicyNumber</h5>
-                        </div>
-                        <div class="card-body">
-                            <input type="hidden" name="PolicyInputs[@i].PolicyNumber" value="@Model.PolicyInputs[i].PolicyNumber" />
-                            
-                            <div class="row mb-3">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="PolicyInputs[@i].Balance">Balance:</label>
-                                        <input type="number" class="form-control" asp-for="PolicyInputs[@i].Balance" step="0.01" />
-                                        <span asp-validation-for="PolicyInputs[@i].Balance" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label asp-for="PolicyInputs[@i].Installment">Installment:</label>
-                                        <input type="number" class="form-control" asp-for="PolicyInputs[@i].Installment" step="0.01" />
-                                        <span asp-validation-for="PolicyInputs[@i].Installment" class="text-danger"></span>
-                                    </div>
-                                </div>
+            <div class="card mb-3">
+                <div class="card-header bg-light">
+                    <h5 class="mb-0">Policy @Model.PolicyInputs[i].PolicyNumber</h5>
+                </div>
+                <div class="card-body">
+                    <input type="hidden" name="PolicyInputs[@i].PolicyNumber" value="@Model.PolicyInputs[i].PolicyNumber" />
+
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PolicyInputs[@i].Balance">Balance:</label>
+                                <input type="number" class="form-control" asp-for="PolicyInputs[@i].Balance" step="0.01" required />
+                                <span asp-validation-for="PolicyInputs[@i].Balance" class="text-danger"></span>
                             </div>
-                            
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="PolicyInputs[@i].EffectiveDate">Effective Date:</label>
-                                        <input type="date" class="form-control" asp-for="PolicyInputs[@i].EffectiveDate" />
-                                        <span asp-validation-for="PolicyInputs[@i].EffectiveDate" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="PolicyInputs[@i].ExpirationDate">Expiration Date:</label>
-                                        <input type="date" class="form-control" asp-for="PolicyInputs[@i].ExpirationDate" />
-                                        <span asp-validation-for="PolicyInputs[@i].ExpirationDate" class="text-danger"></span>
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label asp-for="PolicyInputs[@i].CurrentDate">Current Date:</label>
-                                        <input type="date" class="form-control" asp-for="PolicyInputs[@i].CurrentDate" />
-                                        <span asp-validation-for="PolicyInputs[@i].CurrentDate" class="text-danger"></span>
-                                    </div>
-                                </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="PolicyInputs[@i].Installment">Installment:</label>
+                                <input type="number" class="form-control" asp-for="PolicyInputs[@i].Installment" step="0.01" required />
+                                <span asp-validation-for="PolicyInputs[@i].Installment" class="text-danger"></span>
                             </div>
                         </div>
                     </div>
-                }
-                
-                <div class="text-center mt-4">
-                    <button type="submit" class="btn btn-primary px-5" formaction="@Url.Page("Index", "Calculate")">Calculate</button>
+
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="PolicyInputs[@i].EffectiveDate">Effective Date:</label>
+                                <input type="date" class="form-control" asp-for="PolicyInputs[@i].EffectiveDate" required />
+                                <span asp-validation-for="PolicyInputs[@i].EffectiveDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="PolicyInputs[@i].ExpirationDate">Expiration Date:</label>
+                                <input type="date" class="form-control" asp-for="PolicyInputs[@i].ExpirationDate" required />
+                                <span asp-validation-for="PolicyInputs[@i].ExpirationDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label asp-for="PolicyInputs[@i].CurrentDate">Current Date:</label>
+                                <input type="date" class="form-control" asp-for="PolicyInputs[@i].CurrentDate" required />
+                                <span asp-validation-for="PolicyInputs[@i].CurrentDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </form>
+            </div>
+                }
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-5" formaction="@Url.Page("Index", "Calculate")">Calculate</button>
+            </div>
+        </form>
         }
 
         @if (Model.Results?.Count > 0)
         {
-            <div class="mt-5">
-                <h3>Results</h3>
-                <div class="table-responsive">
-                    <table class="table table-striped table-bordered">
-                        <thead class="table-primary">
-                            <tr>
-                                <th>Policy Number</th>
-                                <th>Revised Amount</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var result in Model.Results)
+        <div class="mt-5">
+            <h3>Results</h3>
+            <div class="table-responsive">
+                <table class="table table-striped table-bordered">
+                    <thead class="table-primary">
+                        <tr>
+                            <th>Policy Number</th>
+                            <th>Revised Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var result in Model.Results)
                             {
-                                <tr>
-                                    <td>@result.PolicyNumber</td>
-                                    <td>@result.RevisedAmount.ToString("C2")</td>
-                                </tr>
+                        <tr>
+                            <td>@result.PolicyNumber</td>
+                            <td>@result.RevisedAmount.ToString("C2")</td>
+                        </tr>
                             }
-                            <tr class="table-info">
-                                <td><strong>Total</strong></td>
-                                <td><strong>@Model.TotalAmount.ToString("C2")</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+                        <tr class="table-info">
+                            <td><strong>Total</strong></td>
+                            <td><strong>@Model.TotalAmount.ToString("C2")</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-                <div class="card mt-4">
-                    <div class="card-header">
-                        <h3 class="mb-0">FAQ</h3>
-                    </div>
-                    <div class="card-body">
-                        <dl>
-                            <dt>Q: Why is the revised amount more than what was billed?</dt>
-                            <dd>A: If the policy has a spreading adjustment, it will include the entire spread balance.</dd>
-                            <dd>A: Underwriting could have sent charges over; if no changes were submitted, contact the respective department.</dd>
-                            <dd>A: A payment could have returned.</dd>
-                        </dl>
+            <!-- summary section -->
+            <div class="card mt-4 mb-4">
+                <div class="card-header bg-light">
+                    <h3 class="mb-0">Summary</h3>
+                </div>
+                <div class="card-body">
+                    <p class="lead">The revised amount due is: <strong>@Model.TotalAmount.ToString("C2") Pending No Changes.</strong></p>
+
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            <h4 class="mb-0">For SFPP Representatives</h4>
+                        </div>
+                        <div class="card-body bg-light">
+                            <p class="mb-2">Copy and paste for your note:</p>
+                            <div class="border p-3 bg-white mb-3" id="copyText">
+                                <p>The revised amount due was @Model.TotalAmount.ToString("C2").</p>
+                                @if (Model.Results.Count > 1)
+                                    {
+                                <p>Policy breakdown:</p>
+                                <ul>
+                                    @foreach (var result in Model.Results)
+                                            {
+                                    <li>Policy @result.PolicyNumber: @result.RevisedAmount.ToString("C2")</li>
+                                            }
+                                </ul>
+                                    }
+                            </div>
+                            <button class="btn btn-sm btn-secondary" onclick="copyToClipboard('copyText')">
+                                <i class="bi bi-clipboard"></i> Copy to Clipboard
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <div class="d-flex justify-content-center mt-4">
+                <a asp-page="/GeneratePDF" asp-route-id="@Model.SavedCheckHistoryId" class="btn btn-success me-2">
+                    <i class="bi bi-file-pdf"></i> Download PDF
+                </a>
+                <a asp-page="/History" asp-route-id="@Model.SavedCheckHistoryId" class="btn btn-info">
+                    <i class="bi bi-search"></i> View History
+                </a>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h3 class="mb-0">FAQ</h3>
+                </div>
+                <div class="card-body">
+                    <dl>
+                        <dt>Q: Why is the revised amount more than what was billed?</dt>
+                        <dd>A: If the policy has a spreading adjustment, it will include the entire spread balance.</dd>
+                        <dd>A: Underwriting could have sent charges over; if no changes were submitted, contact the respective department.</dd>
+                        <dd>A: A payment could have returned.</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
         }
     </div>
 </div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            const range = document.createRange();
+            range.selectNode(element);
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand('copy');
+            window.getSelection().removeAllRanges();
+
+            // show feedback
+            const button = event.target.closest('button');
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="bi bi-check"></i> Copied!';
+            button.classList.replace('btn-secondary', 'btn-success');
+
+            setTimeout(function() {
+                button.innerHTML = originalText;
+                button.classList.replace('btn-success', 'btn-secondary');
+            }, 2000);
+        }
+    </script>
+}
