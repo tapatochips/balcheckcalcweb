@@ -19,7 +19,7 @@ namespace balcheckcalcweb.Pages
 
         [BindProperty]
         [Required(ErrorMessage = "User alias is required")]
-        [StringLength(50, ErrorMessage = "Alias cannot exceed 50 characters")]
+        [StringLength(6, ErrorMessage = "Alias cannot exceed 6 characters")]
         [Display(Name = "Your Alias")]
         public string UserAlias { get; set; }
 
