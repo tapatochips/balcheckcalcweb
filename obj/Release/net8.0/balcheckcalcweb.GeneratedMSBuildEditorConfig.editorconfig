@@ -17,47 +17,47 @@ build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = balcheckcalcweb
 build_property.RootNamespace = balcheckcalcweb
-build_property.ProjectDir = C:\Users\richm\Source\Repos\balcheckcalcweb\
+build_property.ProjectDir = C:\Users\danie\Source\Repos\balcheckcalcweb\
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 8.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\richm\Source\Repos\balcheckcalcweb
+build_property.MSBuildProjectDirectory = C:\Users\danie\Source\Repos\balcheckcalcweb
 build_property._RazorSourceGeneratorDebug = 
 
-[C:/Users/richm/Source/Repos/balcheckcalcweb/Pages/Error.cshtml]
+[C:/Users/danie/Source/Repos/balcheckcalcweb/Pages/Error.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRXJyb3IuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/richm/Source/Repos/balcheckcalcweb/Pages/GeneratePDF.cshtml]
+[C:/Users/danie/Source/Repos/balcheckcalcweb/Pages/GeneratePDF.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcR2VuZXJhdGVQREYuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/richm/Source/Repos/balcheckcalcweb/Pages/History.cshtml]
+[C:/Users/danie/Source/Repos/balcheckcalcweb/Pages/History.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSGlzdG9yeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/richm/Source/Repos/balcheckcalcweb/Pages/Index.cshtml]
+[C:/Users/danie/Source/Repos/balcheckcalcweb/Pages/Index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5kZXguY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/richm/Source/Repos/balcheckcalcweb/Pages/Privacy.cshtml]
+[C:/Users/danie/Source/Repos/balcheckcalcweb/Pages/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUHJpdmFjeS5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/richm/Source/Repos/balcheckcalcweb/Pages/Shared/_ValidationScriptsPartial.cshtml]
+[C:/Users/danie/Source/Repos/balcheckcalcweb/Pages/Shared/_ValidationScriptsPartial.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/richm/Source/Repos/balcheckcalcweb/Pages/_ViewImports.cshtml]
+[C:/Users/danie/Source/Repos/balcheckcalcweb/Pages/_ViewImports.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/richm/Source/Repos/balcheckcalcweb/Pages/_ViewStart.cshtml]
+[C:/Users/danie/Source/Repos/balcheckcalcweb/Pages/_ViewStart.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcX1ZpZXdTdGFydC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/richm/Source/Repos/balcheckcalcweb/Pages/Shared/_Layout.cshtml]
+[C:/Users/danie/Source/Repos/balcheckcalcweb/Pages/Shared/_Layout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcU2hhcmVkXF9MYXlvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = b-omp0b5f7j4
