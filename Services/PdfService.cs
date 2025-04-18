@@ -49,7 +49,7 @@ namespace balcheckcalcweb.Services
             {
                 row.RelativeItem().Column(column =>
                 {
-                    column.Item().AlignCenter().Text("Balance Check Calculator")
+                    column.Item().AlignCenter().Text("Revised Amount Due")
                         .FontSize(20).Bold();
 
                     column.Item().AlignCenter().Text($"Generated on: {DateTime.Now:MM/dd/yyyy hh:mm tt}")
@@ -123,7 +123,7 @@ namespace balcheckcalcweb.Services
 
                             // Add total row
                             table.Cell().ColumnSpan(6).Text("Total: ").Bold().AlignRight();
-                            table.Cell().Text($"${checkHistory.TotalAmount:N2}").Bold();
+                            table.Cell().Text($" ${checkHistory.TotalAmount:N2} Pending No Changes.").Bold();
                         });
                     });
                 });
